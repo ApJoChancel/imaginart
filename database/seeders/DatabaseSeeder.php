@@ -64,7 +64,7 @@ class DatabaseSeeder extends Seeder
                 'type' => 'Artiste', 
                 'presentation' => 'Je suis un jeune artiste peintre.',
                 'artistic_process' => 'Ma démarche consiste à faire du beau avec ce que je trouve',
-                'picture' => 'public/pictures/john_doe.png',
+                'picture' => 'public/users/john_doe.png',
                 'created_at' => date('Y-m-d H:i:s'), 
                 'updated_at' => date('Y-m-d H:i:s')
             ],
@@ -80,6 +80,28 @@ class DatabaseSeeder extends Seeder
                 'presentation' =>null,
                 'artistic_process' => null,
                 'picture' => null, 
+                'created_at' => date('Y-m-d H:i:s'), 
+                'updated_at' => date('Y-m-d H:i:s')
+            ],
+        ]);
+
+        //oeuvre_categories
+        DB::table('oeuvre_categories')->insert([
+            [
+                'id' => 1,
+                'name' => 'Categorie#1', 
+                'created_at' => date('Y-m-d H:i:s'), 
+                'updated_at' => date('Y-m-d H:i:s')
+            ],
+            [
+                'id' => 2,
+                'name' => 'Categorie#2', 
+                'created_at' => date('Y-m-d H:i:s'), 
+                'updated_at' => date('Y-m-d H:i:s')
+            ],
+            [
+                'id' => 3,
+                'name' => 'Categorie#3', 
                 'created_at' => date('Y-m-d H:i:s'), 
                 'updated_at' => date('Y-m-d H:i:s')
             ],
