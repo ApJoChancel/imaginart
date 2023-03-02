@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -33,11 +34,10 @@ class ProfileController extends Controller
             $request->user()->email_verified_at = null;
         }
         //La photo
-        $request->user()->picture = 
-            $request->file('picture')
-                ->storeAs('public/pictures', 
-                    strtolower(str_replace(' ', '_', $request->user()->name)) .'.' .$request->file('picture')->extension());
-
+        $file = $request->file('picture');
+        $path = $file->storeAs('public/users', Str::Slug($request->user()->name) .'.' .$file->extension());
+        $path = str_replace('public/', 'storage/', $path);
+        $request->user()->picture = $path;
         DB::beginTransaction();
             $request->user()->save();
         DB::commit();

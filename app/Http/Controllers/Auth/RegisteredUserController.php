@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
@@ -83,7 +84,7 @@ class RegisteredUserController extends Controller
 
     public function createStepThree(): View
     {
-        $options = ArtistCategory::all();
+        $options = ArtistCategory::all(); 
         return view('register.step-three', compact('options'));
     }
 
@@ -100,6 +101,8 @@ class RegisteredUserController extends Controller
         $user->presentation = $request->presentation;
         $user->artistic_process = $request->artistic;
         $file = $request->file('picture');
+        $path = $file->storeAs('public/users', Str::Slug($user->name) .'.' .$file->extension());
+        $path = str_replace('public/', 'storage/', $path);
         
         DB::beginTransaction();
             $item = User::create([
@@ -111,7 +114,7 @@ class RegisteredUserController extends Controller
                 'type' => $user->type,
                 'presentation' => $user->presentation,
                 'artistic_process' => $user->artistic_process,
-                'picture' => $file->storeAs('public/pictures', strtolower(str_replace(' ', '_', $user->name)) .'.' .$file->extension()),
+                'picture' => $path,
                 'password' => Hash::make($user->password),
             ]);
             $item->artistCategories()->attach($request->options);

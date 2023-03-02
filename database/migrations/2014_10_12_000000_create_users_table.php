@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('address');
             $table->string('phone');
             $table->string('type');
-            $table->string('presentation')->nullable();
-            $table->string('artistic_process')->nullable();
+            $table->mediumText('presentation')->nullable();
+            $table->mediumText('artistic_process')->nullable();
             $table->string('picture')->nullable();
             $table->rememberToken();
             $table->timestamps();

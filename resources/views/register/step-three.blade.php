@@ -2,7 +2,7 @@
     <form method="POST" action="{{ route('registerStepThree') }}" enctype="multipart/form-data">
         @csrf
 
-        <!-- option -->
+        <!-- Option -->
         <div class="mt-4">
             <x-input-label :value="__('Quel type d\'artiste êtes-vous ?')" />
             @foreach ($options as $option)
