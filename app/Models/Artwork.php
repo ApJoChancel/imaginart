@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Oeuvre extends Model
+class Artwork extends Model
 {
     use HasFactory;
 
@@ -19,6 +19,6 @@ class Oeuvre extends Model
 
     public function categorie(): BelongsTo
     {
-        return $this->belongsTo(OeuvreCategory::class);
+        return $this->belongsTo(ArtworkCategory::class);
     }
 }

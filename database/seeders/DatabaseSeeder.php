@@ -85,8 +85,8 @@ class DatabaseSeeder extends Seeder
             ],
         ]);
 
-        //oeuvre_categories
-        DB::table('oeuvre_categories')->insert([
+        //artwork_categories
+        DB::table('artwork_categories')->insert([
             [
                 'id' => 1,
                 'name' => 'Categorie#1', 

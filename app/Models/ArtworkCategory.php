@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class OeuvreCategory extends Model
+class ArtworkCategory extends Model
 {
     use HasFactory;
 
-    public function oeuvres(): HasMany
+    public function artworks(): HasMany
     {
-        return $this->hasMany(Oeuvre::class);
+        return $this->hasMany(Artwork::class);
     }
 }

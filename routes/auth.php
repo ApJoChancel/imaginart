@@ -60,6 +60,6 @@ Route::middleware('auth')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
-    //Oeuvres
-    Route::resource('oeuvres', 'App\Http\Controllers\OeuvreController');
+    //Artworks
+    Route::resource('oeuvres', 'App\Http\Controllers\ArtworkController');
 });

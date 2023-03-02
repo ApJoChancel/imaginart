@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Oeuvre;
-use App\Models\OeuvreCategory;
+use App\Models\Artwork;
+use App\Models\ArtworkCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
-class OeuvreController extends Controller
+class ArtworkController extends Controller
 {
     private static array $headers = [
         'N°',
@@ -24,20 +24,20 @@ class OeuvreController extends Controller
 
     public function index()
     {
-        $items = DB::table('oeuvres')
-            ->join('oeuvre_categories', 'oeuvres.oeuvre_category_id', '=', 'oeuvre_categories.id')
+        $items = DB::table('artworks')
+            ->join('artwork_categories', 'artworks.artwork_category_id', '=', 'artwork_categories.id')
             ->select(
-                'oeuvres.id', 
-                'oeuvres.title', 
-                'oeuvres.picture', 
-                'oeuvres.artist_price', 
-                'oeuvres.sale_price', 
-                'oeuvre_categories.name as categorie'
+                'artworks.id', 
+                'artworks.title', 
+                'artworks.picture', 
+                'artworks.artist_price', 
+                'artworks.sale_price', 
+                'artwork_categories.name as categorie'
             )
             ->paginate(15); 
         $i = 1;
         return view(
-            'artist_dashboard.oeuvres.index', 
+            'artist_dashboard.artworks.index', 
             [
                 'items' => $items, 
                 'i' => $i,
@@ -48,14 +48,14 @@ class OeuvreController extends Controller
     
     public function create()
     {
-        $categories = OeuvreCategory::all();
-        return view('artist_dashboard.oeuvres.create', compact('categories'));
+        $categories = ArtworkCategory::all();
+        return view('artist_dashboard.artworks.create', compact('categories'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'title' => ['required', 'string', 'max:255', 'unique:'.Oeuvre::class], 
+            'title' => ['required', 'string', 'max:255', 'unique:'.Artwork::class], 
             'description' => ['required', 'string'], 
             'categorie' => ['required', 'integer'], 
             'picture' => ['required', 'image'], 
@@ -64,17 +64,17 @@ class OeuvreController extends Controller
         ]);
 
         $file = $request->file('picture');
-        $path = $file->storeAs('public/oeuvres', Str::Slug($request->title) .'.' .$file->extension());
+        $path = $file->storeAs('public/artworks', Str::Slug($request->title) .'.' .$file->extension());
         $path = str_replace('public/', 'storage/', $path);
         DB::beginTransaction();
-            Oeuvre::create([
+            Artwork::create([
                 'title' => $request->title,
                 'description' => $request->description,
                 'picture' => $request->picture,
                 'artist_price' => $request->artist_price,
                 'sale_price' => $request->sale_price,
                 'picture' => $path,
-                'oeuvre_category_id' => $request->categorie,
+                'artwork_category_id' => $request->categorie,
                 'user_id' => Auth::user()->id
             ]);
         DB::commit();
@@ -82,17 +82,17 @@ class OeuvreController extends Controller
         return to_route('oeuvres.index');
     }
 
-    public function edit(int $oeuvre)
+    public function edit(int $artwork)
     {
-        $item = Oeuvre::findOrFail($oeuvre);
-        $categories = OeuvreCategory::all();
-        return view('artist_dashboard.oeuvres.edit', compact(['item', 'categories']));
+        $item = Artwork::findOrFail($artwork);
+        $categories = ArtworkCategory::all();
+        return view('artist_dashboard.artworks.edit', compact(['item', 'categories']));
     }
 
-    public function update(Request $request, int $oeuvre)
+    public function update(Request $request, int $artwork)
     {
         $request->validate([
-            'title' => ['required', 'string', 'max:255', Rule::unique(Oeuvre::class)->ignore($oeuvre)], 
+            'title' => ['required', 'string', 'max:255', Rule::unique(Artwork::class)->ignore($artwork)], 
             'description' => ['required', 'string'], 
             'categorie' => ['required', 'integer'], 
             'picture' => ['nullable', 'image'], 
@@ -102,14 +102,14 @@ class OeuvreController extends Controller
 
         $file = $request->file('picture');
         if($file){
-            $path = $file->storeAs('public/oeuvres', Str::Slug($request->title) .'.' .$file->extension());
+            $path = $file->storeAs('public/artworks', Str::Slug($request->title) .'.' .$file->extension());
             $path = str_replace('public/', 'storage/', $path);
         }
 
-        $item = Oeuvre::findOrFail($oeuvre);
+        $item = Artwork::findOrFail($artwork);
         $item->title = $request->title;
         $item->description = $request->description;
-        $item->oeuvre_category_id = $request->categorie;
+        $item->artwork_category_id = $request->categorie;
         $item->picture = $path ?? $item->picture;
         $item->artist_price = $request->artist_price;
         $item->sale_price = $request->sale_price;
@@ -120,17 +120,17 @@ class OeuvreController extends Controller
         return to_route('oeuvres.index');
     }
 
-    public function destroy($oeuvre)
+    public function destroy($artwork)
     {
         DB::beginTransaction();
-            Oeuvre::findOrFail($oeuvre)->delete();
+            Artwork::findOrFail($artwork)->delete();
         DB::commit();
         return back();
     }
 
-    public function show(int $oeuvre)
+    public function show(int $artwork)
     {
-        $item = Oeuvre::findOrFail($oeuvre);
-        return view('artist_dashboard.oeuvres.show', compact('item'));
+        $item = Artwork::findOrFail($artwork);
+        return view('artist_dashboard.artworks.show', compact('item'));
     }
 }

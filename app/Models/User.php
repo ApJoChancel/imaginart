@@ -30,8 +30,8 @@ class User extends Authenticatable
         return $this->belongsToMany(ArtistCategory::class);
     }
 
-    public function oeuvres(): HasMany
+    public function artworks(): HasMany
     {
-        return $this->hasMany(Oeuvre::class);
+        return $this->hasMany(Artwork::class);
     }
 }
