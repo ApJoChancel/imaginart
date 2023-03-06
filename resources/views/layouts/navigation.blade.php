@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('oeuvres.index')" :active="request()->routeIs('oeuvres.*')">
                         {{ __('Oeuvres') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('expositions.index')" :active="request()->routeIs('expositions.*')">
+                        {{ __('Expositions') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -75,6 +78,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('oeuvres.index')" :active="request()->routeIs('oeuvres.*')">
                 {{ __('Oeuvres') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('expositions.index')" :active="request()->routeIs('expositions.*')">
+                {{ __('Expositions') }}
             </x-responsive-nav-link>
         </div>
 

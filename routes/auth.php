@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArtworkController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\ExposureController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -60,6 +62,17 @@ Route::middleware('auth')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
-    //Artworks
-    Route::resource('oeuvres', 'App\Http\Controllers\ArtworkController');
+    //
+    Route::resources([
+        'oeuvres' => ArtworkController::class
+    ]);
+    //Exposures
+    Route::resource('expositions', 'App\Http\Controllers\ExposureController')->except(['create', 'store']);
+    Route::get('expositions/create/step-one', [ExposureController::class, 'createStepOne'])
+                ->name('exposureStepOne');
+    Route::post('expositions/create/step-one', [ExposureController::class, 'storeStepOne']);
+
+    Route::get('expositions/create/step-two', [ExposureController::class, 'createStepTwo'])
+                ->name('exposureStepTwo');
+    Route::post('expositions/create/step-two', [ExposureController::class, 'storeStepTwo']); 
 });
