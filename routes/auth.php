@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\ExposureController;
+use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -75,4 +76,9 @@ Route::middleware('auth')->group(function () {
     Route::get('expositions/create/step-two', [ExposureController::class, 'createStepTwo'])
                 ->name('exposureStepTwo');
     Route::post('expositions/create/step-two', [ExposureController::class, 'storeStepTwo']); 
+    //Shop
+    Route::get('boutique', [ShopController::class, 'index'])
+                ->name('shop');
+    Route::get('boutique/panier', [ShopController::class, 'createCart'])
+                ->name('cart.create');
 });

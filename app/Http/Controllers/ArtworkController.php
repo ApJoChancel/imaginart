@@ -120,7 +120,7 @@ class ArtworkController extends Controller
         return to_route('oeuvres.index');
     }
 
-    public function destroy($artwork)
+    public function destroy(int $artwork)
     {
         DB::beginTransaction();
             Artwork::findOrFail($artwork)->delete();

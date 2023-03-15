@@ -21,11 +21,29 @@
                     <x-nav-link :href="route('expositions.index')" :active="request()->routeIs('expositions.*')">
                         {{ __('Expositions') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('shop')" :active="request()->routeIs('shop.*')">
+                        {{ __('Boutique') }}
+                    </x-nav-link>
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
+                <li class="font-sans block mt-4 lg:inline-block lg:mt-0 lg:ml-6 align-middle text-black hover:text-gray-700">
+                    <a href="{{ route('cart.create') }}" role="button" class="relative flex">
+                        <svg class="flex-1 w-8 h-8 fill-current" viewbox="0 0 24 24">
+                            <path d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75C7.17,14.7 7.18,14.66 7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.5C20.95,5.34 21,5.17 21,5A1,1 0 0,0 20,4H5.21L4.27,2M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z"/>
+                        </svg>
+                        <span class="cart absolute right-0 top-0 rounded-full bg-red-600 w-4 h-4 top right p-0 m-0 text-white font-mono text-sm leading-tight text-center">
+                            @if(request()->session(auth()->user()->id)->get('items'))
+                                {{ request()->session(auth()->user()->id)->get('items')->sum('quantity') }}
+                            @else
+                                0
+                            @endif
+                        </span>
+                    </a>
+                </li>
+
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
@@ -82,10 +100,27 @@
             <x-responsive-nav-link :href="route('expositions.index')" :active="request()->routeIs('expositions.*')">
                 {{ __('Expositions') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('shop')" :active="request()->routeIs('shop.*')">
+                {{ __('Boutique') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
+            <li class="font-sans block mt-4 lg:inline-block lg:mt-0 lg:ml-6 align-middle text-black hover:text-gray-700">
+                <a href="{{ route('cart.create') }}" role="button" class="relative flex">
+                    <svg class="flex-1 w-8 h-8 fill-current" viewbox="0 0 24 24">
+                        <path d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75C7.17,14.7 7.18,14.66 7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.5C20.95,5.34 21,5.17 21,5A1,1 0 0,0 20,4H5.21L4.27,2M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z"/>
+                    </svg>
+                    <span class="cart absolute top-0 rounded-full bg-red-600 w-4 h-4 top right p-0 m-0 text-white font-mono text-sm  leading-tight text-center" style="right: 45%;">
+                        @if(request()->session(auth()->user()->id)->get('items'))
+                            {{ request()->session(auth()->user()->id)->get('items')->sum('quantity') }}
+                        @else
+                            0
+                        @endif
+                    </span>
+                </a>
+            </li>
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
                 <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>

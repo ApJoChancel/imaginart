@@ -19,7 +19,8 @@ use Illuminate\Support\Facades\Route;
     return view('welcome');
 }); */
 
-Route::get('/', [AuthenticatedSessionController::class, 'create']);
+Route::get('/', [AuthenticatedSessionController::class, 'create'])
+                ->name('home');
 
 Route::post('login', [AuthenticatedSessionController::class, 'store'])
                 ->name('login');
