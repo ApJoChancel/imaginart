@@ -41,7 +41,7 @@ class RegisteredUserController extends Controller
         $user->password = $request->password;
 
         $request->session()->put('user', $user);
-        return to_route('registerStepTwo');
+        return to_route('registerStepTwo'); 
     }
 
     public function createStepTwo(): View

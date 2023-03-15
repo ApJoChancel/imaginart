@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Artwork;
 use App\Models\ArtworkCategory;
+use App\Models\CategoryStyle;
+use App\Models\CategoryTechnic;
+use App\Models\CategoryTheme;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -26,6 +29,7 @@ class ArtworkController extends Controller
     {
         $items = DB::table('artworks')
             ->join('artwork_categories', 'artworks.artwork_category_id', '=', 'artwork_categories.id')
+            ->where('user_id', Auth::user()->id)
             ->select(
                 'artworks.id', 
                 'artworks.title', 
@@ -58,9 +62,14 @@ class ArtworkController extends Controller
             'title' => ['required', 'string', 'max:255', 'unique:'.Artwork::class], 
             'description' => ['required', 'string'], 
             'categorie' => ['required', 'integer'], 
+            'style' => ['required', 'integer'], 
+            'technic' => ['required', 'integer'], 
+            'theme' => ['required', 'integer'], 
             'picture' => ['required', 'image'], 
             'artist_price' => ['required', 'integer'], 
             'sale_price' => ['required', 'integer'], 
+            'dimension' => ['sometimes', 'string'], 
+            'creation_date' => ['sometimes', 'string'], 
         ]);
 
         $file = $request->file('picture');
@@ -73,8 +82,13 @@ class ArtworkController extends Controller
                 'picture' => $request->picture,
                 'artist_price' => $request->artist_price,
                 'sale_price' => $request->sale_price,
+                'dimension' => $request->dimension,
+                'creation_date' => $request->creation_date,
                 'picture' => $path,
                 'artwork_category_id' => $request->categorie,
+                'category_style_id' => $request->style,
+                'category_technic_id' => $request->technic,
+                'category_theme_id' => $request->theme,
                 'user_id' => Auth::user()->id
             ]);
         DB::commit();
@@ -85,8 +99,7 @@ class ArtworkController extends Controller
     public function edit(int $artwork)
     {
         $item = Artwork::findOrFail($artwork);
-        $categories = ArtworkCategory::all();
-        return view('artist_dashboard.artworks.edit', compact(['item', 'categories']));
+        return view('artist_dashboard.artworks.edit', compact(['item']));
     }
 
     public function update(Request $request, int $artwork)
@@ -94,10 +107,11 @@ class ArtworkController extends Controller
         $request->validate([
             'title' => ['required', 'string', 'max:255', Rule::unique(Artwork::class)->ignore($artwork)], 
             'description' => ['required', 'string'], 
-            'categorie' => ['required', 'integer'], 
             'picture' => ['nullable', 'image'], 
             'artist_price' => ['required', 'integer'], 
-            'sale_price' => ['required', 'integer'],
+            'sale_price' => ['required', 'integer'], 
+            'dimension' => ['sometimes', 'string'], 
+            'creation_date' => ['sometimes', 'string'],
         ]);
 
         $file = $request->file('picture');
@@ -109,10 +123,11 @@ class ArtworkController extends Controller
         $item = Artwork::findOrFail($artwork);
         $item->title = $request->title;
         $item->description = $request->description;
-        $item->artwork_category_id = $request->categorie;
         $item->picture = $path ?? $item->picture;
         $item->artist_price = $request->artist_price;
         $item->sale_price = $request->sale_price;
+        $item->dimension = $request->dimension;
+        $item->creation_date = $request->creation_date;
         DB::beginTransaction();
             $item->save();
         DB::commit();
@@ -120,7 +135,7 @@ class ArtworkController extends Controller
         return to_route('oeuvres.index');
     }
 
-    public function destroy($artwork)
+    public function destroy(int $artwork)
     {
         DB::beginTransaction();
             Artwork::findOrFail($artwork)->delete();
@@ -132,5 +147,17 @@ class ArtworkController extends Controller
     {
         $item = Artwork::findOrFail($artwork);
         return view('artist_dashboard.artworks.show', compact('item'));
+    }
+
+    public function categories(int $id)
+    {
+        $styles = CategoryStyle::where('artwork_category_id', $id)->get();   
+        $technics = CategoryTechnic::where('artwork_category_id', $id)->get();   
+        $themes = CategoryTheme::where('artwork_category_id', $id)->get();   
+        return response()->json([
+            'styles' => $styles,
+            'technics' => $technics,
+            'themes' => $themes
+        ]);
     }
 }

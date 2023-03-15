@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\ArtworkCategory;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,14 +12,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('exposures', function (Blueprint $table) {
+        Schema::create('category_styles', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->mediumText('description');
-            $table->string('target');
-            $table->date('start');
-            $table->date('end');
-            $table->unsignedTinyInteger('status');
+            $table->string('name');
+            $table->foreignIdFor(ArtworkCategory::class)->constrained();
             $table->timestamps();
         });
     }
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('exposures');
+        Schema::dropIfExists('category_styles');
     }
 };

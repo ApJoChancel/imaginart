@@ -11,6 +11,8 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\ExposureController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -26,8 +28,23 @@ Route::middleware('guest')->group(function () {
     Route::get('register/step-three', [RegisteredUserController::class, 'createStepThree'])
                 ->name('registerStepThree');
     Route::post('register/step-three', [RegisteredUserController::class, 'storeStepThree']);
-    //
+    //Paiement en plusieurs étapes
+    Route::get('order/step-one', [OrderController::class, 'createStepOne'])
+                ->name('order');
+    Route::post('order/step-one', [OrderController::class, 'storeStepOne']);
 
+    Route::get('order/step-two', [OrderController::class, 'createStepTwo'])
+                ->name('orderStepTwo');
+    Route::post('order/step-two', [OrderController::class, 'storeStepTwo']);
+
+    Route::get('order/step-three', [OrderController::class, 'createStepThree'])
+                ->name('orderStepThree');
+
+    Route::get('order/step-four', [OrderController::class, 'createStepFour'])
+                ->name('orderStepFour');
+    Route::post('order/step-four', [OrderController::class, 'storeStepFour']);
+    
+    //
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
                 ->name('password.request');
 

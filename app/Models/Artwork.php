@@ -27,4 +27,14 @@ class Artwork extends Model
     {
         return $this->belongsToMany(Exposure::class);
     }
+
+    public function orders(): BelongsToMany
+    {
+        return $this->belongsToMany(Order::class);
+    }
+
+    public function getFormattedPriceAttribute()
+    {
+        return number_format($this->sale_price, 0, ',', ' ') .' FCFA';
+    }
 }

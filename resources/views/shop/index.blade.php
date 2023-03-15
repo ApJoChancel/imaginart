@@ -1,7 +1,7 @@
-<x-app-layout>
+<x-app-layout> 
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Accueil') }}               
+            {{ __('Liste des oeuvres') }}               
         </h2>
     </x-slot>
 
@@ -14,7 +14,7 @@
                             <tr class="border-2">
                                 <x-table.td><img src="{{ asset($item->picture) }}" alt="Image de l'oeuvre" width="50px"></x-table.td>
                                 <x-table.td>{{ $item->title }}</x-table.td>
-                                <x-table.td>{{ $item->formatted_price }}</x-table.td>
+                                <x-table.td>{{ $item->sale_price }}</x-table.td>
                                 <x-table.td>
                                     <a class="text-sm text-gray-600 hover:text-gray-900" href="{{ route('shop.show', ['shop' => $item->id]) }}">
                                         <x-secondary-button>{{ __('Voir') }}</x-secondary-button>

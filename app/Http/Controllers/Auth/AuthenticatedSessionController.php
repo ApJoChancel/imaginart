@@ -26,10 +26,14 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
-
-        $request->session()->regenerate();
-
-        return redirect()->intended(RouteServiceProvider::HOME);
+        //Le panier s'il n'est pas vide
+        $items = request()->session()->get('items') ?? collect();
+        // $request->session()->regenerate();
+        request()->session(Auth::user()->id)->put('items', $items);
+        if(strtolower(Auth::user()->type) === 'artiste')
+            return redirect()->intended(RouteServiceProvider::HOME);
+        else
+            return redirect(route('home'));
     }
 
     /**
