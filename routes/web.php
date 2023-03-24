@@ -21,7 +21,8 @@ Route::get('/', [HomeController::class, 'index'])
             ->name('home');
 
 //Login
-Route::get('login', [AuthenticatedSessionController::class, 'create']);
+Route::get('login', [AuthenticatedSessionController::class, 'create'])
+                ->name('home');
 
 Route::post('login', [AuthenticatedSessionController::class, 'store'])
                 ->name('login');

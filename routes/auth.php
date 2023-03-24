@@ -92,4 +92,9 @@ Route::middleware('auth')->group(function () {
     Route::get('expositions/create/step-two', [ExposureController::class, 'createStepTwo'])
                 ->name('exposureStepTwo');
     Route::post('expositions/create/step-two', [ExposureController::class, 'storeStepTwo']); 
+    //Shop
+    Route::get('boutique', [ShopController::class, 'index'])
+                ->name('shop');
+    Route::get('boutique/panier', [ShopController::class, 'createCart'])
+                ->name('cart.create');
 });

@@ -1,4 +1,3 @@
-
 //Calcul du prix de vente
 const price = document.getElementById('price');
 const sprice = document.getElementById('sprice');
