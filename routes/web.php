@@ -22,10 +22,9 @@ Route::get('/', [HomeController::class, 'index'])
 
 //Login
 Route::get('login', [AuthenticatedSessionController::class, 'create'])
-                ->name('home');
-
-Route::post('login', [AuthenticatedSessionController::class, 'store'])
                 ->name('login');
+
+Route::post('login', [AuthenticatedSessionController::class, 'store']);
 //Dashboard
 Route::get('/dashboard', function () {
     return view('dashboard');

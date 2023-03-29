@@ -95,6 +95,4 @@ Route::middleware('auth')->group(function () {
     //Shop
     Route::get('boutique', [ShopController::class, 'index'])
                 ->name('shop');
-    Route::get('boutique/panier', [ShopController::class, 'createCart'])
-                ->name('cart.create');
 });

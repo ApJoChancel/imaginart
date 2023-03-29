@@ -16,7 +16,7 @@ class ShopController extends Controller
 
     public function index(){
         $items = Artwork::inRandomOrder()->paginate(15);
-        return view('shop.index', [
+        return view('customer_dashboard.shop.index', [
             'headers' => self::$headers,
             'items' => $items
         ]);
@@ -25,7 +25,7 @@ class ShopController extends Controller
     public function show(int $id)
     {
         $item = Artwork::findOrFail($id);
-        return view('shop.show', [
+        return view('customer_dashboard.shop.show', [
             'headers' => self::$headers,
             'item' => $item
         ]);
@@ -34,6 +34,6 @@ class ShopController extends Controller
     public function createCart()
     {
         $items = (new CartRepository())->content();
-        return view('shop.cart', compact('items'));
+        return view('customer_dashboard.shop.cart', compact('items'));
     }
 }

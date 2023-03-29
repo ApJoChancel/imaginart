@@ -12,9 +12,9 @@ class OrderController extends Controller
     public function createStepOne(): View
     {   
         if(!isset(auth()->user()->id))
-            return view('order.step-one');
+            return view('customer_dashboard.order.step-one');
         else
-            return view('order.step-two');
+            return view('customer_dashboard.order.step-two');
     }
 
     public function storeStepOne(Request $request): RedirectResponse
@@ -39,7 +39,7 @@ class OrderController extends Controller
 
     public function createStepTwo(): View
     {
-        return view('order.step-two');
+        return view('customer_dashboard.order.step-two');
     }
 
     public function storeStepTwo(Request $request): RedirectResponse
@@ -72,12 +72,12 @@ class OrderController extends Controller
             'Frais de livraison'
         ];
         $items = request()->session()->get('items'); 
-        return view('order.step-three', compact(['items', 'headers']));
+        return view('customer_dashboard.order.step-three', compact(['items', 'headers']));
     }
 
     public function createStepFour(): View
     {
-        return view('order.step-four');
+        return view('customer_dashboard.order.step-four');
     }
 
     public function storeStepFour(Request $request): RedirectResponse
