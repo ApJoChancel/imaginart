@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ArtworkCategoryController;
 use App\Http\Controllers\ArtworkController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
@@ -81,7 +83,8 @@ Route::middleware('auth')->group(function () {
                 ->name('logout');
     //
     Route::resources([
-        'oeuvres' => ArtworkController::class
+        'oeuvres' => ArtworkController::class,
+        'admin' => AdminController::class,
     ]);
     //Exposures
     Route::resource('expositions', 'App\Http\Controllers\ExposureController')->except(['create', 'store']);
@@ -95,4 +98,15 @@ Route::middleware('auth')->group(function () {
     //Shop
     Route::get('boutique', [ShopController::class, 'index'])
                 ->name('shop');
+    //Artwork category
+    Route::get('categorie', [ArtworkCategoryController::class, 'index'])
+                ->name('categorie.index');
+    Route::get('categorie/{category}', [ArtworkCategoryController::class, 'show'])
+                ->name('category.show');
+    Route::get('categorie/{parent}/edit/{module}/{category}', [ArtworkCategoryController::class, 'editCategories'])
+                ->name('category.edit.categories');
+    Route::put('categorie/{parent}/update/{module}/{category}', [ArtworkCategoryController::class, 'updateCategories'])
+                ->name('category.update.categories');
+    Route::delete('categorie/{parent}/destroy/{module}/{category}', [ArtworkCategoryController::class, 'destroyCategories'])
+                ->name('category.destroy.categories');
 });

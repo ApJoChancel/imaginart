@@ -24,7 +24,8 @@ Route::get('/', [HomeController::class, 'index'])
 Route::get('login', [AuthenticatedSessionController::class, 'create'])
                 ->name('login');
 
-Route::post('login', [AuthenticatedSessionController::class, 'store']);
+Route::post('login', [AuthenticatedSessionController::class, 'store'])
+                ->name('login');
 //Dashboard
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -32,6 +32,8 @@ class AuthenticatedSessionController extends Controller
         request()->session(Auth::user()->id)->put('items', $items);
         if(strtolower(Auth::user()->type) === 'artiste')
             return redirect()->intended(RouteServiceProvider::HOME);
+        else if(strtolower(Auth::user()->type) === 'admin')
+            return redirect(route('admin.index'));
         else
             return redirect(route('home'));
     }

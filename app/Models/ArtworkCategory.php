@@ -14,4 +14,19 @@ class ArtworkCategory extends Model
     {
         return $this->hasMany(Artwork::class);
     }
+
+    public function styles(): HasMany
+    {
+        return $this->hasMany(CategoryStyle::class);
+    }
+
+    public function technics(): HasMany
+    {
+        return $this->hasMany(CategoryTechnic::class);
+    }
+
+    public function themes(): HasMany
+    {
+        return $this->hasMany(CategoryTheme::class);
+    }
 }
